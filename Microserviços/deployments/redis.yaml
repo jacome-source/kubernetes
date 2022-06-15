@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: vote
+  labels:
+    app: redis
+spec:
+  template:
+    metadata:
+      name: redis
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+  # Especificações de controle de réplica        
+  selector:
+    matchLabels:
+      # Bate com as labels definidas
+      # Deve bate com a label: app definida no template
+      app: redis
+  replicas: 1

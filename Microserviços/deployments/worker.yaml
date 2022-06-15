@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: vote
+  labels:
+    app: woerker
+spec:
+  template:
+    metadata:
+      name: worker
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker
+          image: kodekloud/examplevotingapp_worker:v1
+  # Especificações de controle de réplica        
+  selector:
+    matchLabels:
+      # Bate com as labels definidas
+      # Deve bate com a label: app definida no template
+      app: worker
+  replicas: 1

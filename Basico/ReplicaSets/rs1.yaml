@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend-rs
+  labels:
+    app: frontend
+spec:
+  # Especificação de POD a ser replicado
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        env: prod
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+  # Especificações de controle de réplica        
+  selector:
+    matchLabels:
+      # Deve bate com a label: env definida no template
+      env: prod
+  replicas: 2

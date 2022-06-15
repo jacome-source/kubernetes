@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote
+  namespace: vote
+  labels:
+    app: vote
+spec:
+  template:
+    metadata:
+      name: vote
+      labels:
+        app: vote
+    spec:
+      containers:
+      - name: vote
+        image: kodekloud/examplevotingapp_vote:v1
+        ports:
+        - containerPort: 80
+          name: vote
+  # Especificações de controle de réplica        
+  selector:
+    matchLabels:
+      # Bate com as labels definidas
+      # Deve bate com a label: app definida no template
+      app: vote
+  replicas: 1

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-dp
+  labels:
+    app: frontend-app
+    type: frontend
+spec:
+  # Especificação de POD a ser replicado
+  template:
+    metadata:
+      name: frontend-pod
+      labels:
+        app: frontend-prod
+        type: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: nginx
+  # Especificações de controle de réplica        
+  selector:
+    matchLabels:
+      # Bate com as labels definidas
+      # Deve bate com a label: type definida no template
+      type: frontend
+  replicas: 4
